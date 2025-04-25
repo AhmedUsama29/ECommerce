@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracs\" />
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+
 </Project>
