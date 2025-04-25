@@ -14,4 +14,8 @@
     <ProjectReference Include="..\..\Core\Services\Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Seeding\" />
+  </ItemGroup>
+
 </Project>
