@@ -38,5 +38,18 @@ namespace Services.Specifications
             OrderByDescending = orderByDescendingExpression;
         }
 
+        public int Skip { get; private set; }
+
+        public int Take { get; private set; }
+
+        public bool IsPagingEnabled { get; private set; }
+
+        protected void ApplyPagination(int pageSize, int pageIndex)
+        {
+            IsPagingEnabled = true;
+            Take = pageSize;
+            Skip = (pageIndex - 1) * pageSize;
+        }
+
     }
 }

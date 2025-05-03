@@ -17,5 +17,9 @@ namespace Domain.Contracs
 
         List<Expression<Func<T, object>>> IncludeExpressions { get; } //For Eager Loading
 
+        public int Skip { get; }
+        public int Take { get; }
+        public bool IsPagingEnabled { get; } //For Pagination
+
     }
 }

@@ -24,6 +24,7 @@ namespace Services.Specifications
             AddInclude(prod => prod.ProductType);
             AddInclude(prod => prod.ProductBrand);
             ApplySorting(productQueryParameters);
+            ApplyPagination(productQueryParameters.PageSize,productQueryParameters.PageIndex);
         }
 
         private static Expression<Func<Product, bool>> CreateCriterea(ProductQueryParameters productQueryParameters)

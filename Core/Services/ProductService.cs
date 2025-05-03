@@ -3,6 +3,7 @@ using Domain.Contracs;
 using Domain.Models;
 using Services.Specifications;
 using ServicesAbstraction;
+using Shared;
 using Shared.DataTransferObjects.Products;
 using Shared.Enums;
 using System;
@@ -26,7 +27,7 @@ namespace Services
             return brandsResponse;
         }
 
-        public async Task<IEnumerable<ProductResponse>> GetAllProductsAsync(ProductQueryParameters productQueryParameters)
+        public async Task<PaginatedResponse<ProductResponse>> GetAllProductsAsync(ProductQueryParameters productQueryParameters)
         {
 
             var specs = new ProductWithTypeAndBrandSpecifications(productQueryParameters);
@@ -37,7 +38,15 @@ namespace Services
 
             var productsResponse = _mapper.Map<IEnumerable<ProductResponse>>(products);
 
-            return productsResponse;
+            var res = new PaginatedResponse<ProductResponse>()
+            {
+                Data = productsResponse,
+                PageIndex = productQueryParameters.PageIndex,
+                PageSize = productQueryParameters.PageSize,
+                TotalCount = productsResponse.Count()
+            };
+
+            return res;
 
         }
 

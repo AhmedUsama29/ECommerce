@@ -29,6 +29,11 @@ namespace Persistence.Repositories
                 query = query.OrderByDescending(specifications.OrderByDescending);
             }
 
+            if (specifications.IsPagingEnabled)
+            {
+                query = query.Skip(specifications.Skip).Take(specifications.Take);
+            }
+
             foreach (var includeExpression in specifications.IncludeExpressions)
             {
                 query = query.Include(includeExpression);
