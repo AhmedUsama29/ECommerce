@@ -17,6 +17,9 @@ namespace Services.MappingProfiles
             CreateMap<Product, ProductResponse>()
                 .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.ProductBrand.Name))
                 .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.ProductType.Name));
+
+            CreateMap<ProductBrand, BrandResponse>();
+            CreateMap<ProductType, TypeResponse>();
         }
 
     }
