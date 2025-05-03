@@ -15,10 +15,13 @@ namespace Domain.Contracs
         void Update(TEntity entity);
         void Delete(TEntity entity);
 
-        Task<TEntity> GetByIdAsync(TKey id);
+        Task<TEntity?> GetByIdAsync(TKey id);   //remove later
 
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IEnumerable<TEntity>> GetAllAsync();   //remove later
 
+        Task<TEntity> GetByIdAsync(ISpecifications<TEntity> specifications);
+
+        Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TEntity> specifications);
 
     }
 }
