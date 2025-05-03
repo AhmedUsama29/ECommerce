@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Presentation.Controllers
+namespace ServicesAbstraction
 {
-    public class ProductController
+    public interface IServiceManager
     {
 
-
+        public IProductService ProductService { get; }
     }
 }

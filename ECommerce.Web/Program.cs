@@ -3,6 +3,10 @@ using Domain.Contracs;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Data;
+using Persistence.Repositories;
+using Services;
+using Services.MappingProfiles;
+using ServicesAbstraction;
 
 namespace ECommerce.Web
 {
@@ -24,6 +28,10 @@ namespace ECommerce.Web
 
             builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
+
+            builder.Services.AddScoped<IServiceManager, ServiceManager>();
 
             var app = builder.Build();
 
@@ -36,6 +44,7 @@ namespace ECommerce.Web
                 app.UseSwaggerUI();
             }
 
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             //app.UseAuthorization();
