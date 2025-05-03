@@ -21,6 +21,14 @@ namespace Persistence.Repositories
                 query = query.Where(specifications.Criteria);
             }
 
+            if (specifications.OrderBy is not null)
+            {
+                query = query.OrderBy(specifications.OrderBy);
+            }else if (specifications.OrderByDescending is not null)
+            {
+                query = query.OrderByDescending(specifications.OrderByDescending);
+            }
+
             foreach (var includeExpression in specifications.IncludeExpressions)
             {
                 query = query.Include(includeExpression);

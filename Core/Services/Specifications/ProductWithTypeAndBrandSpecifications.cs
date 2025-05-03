@@ -1,4 +1,6 @@
 ﻿using Domain.Models;
+using Shared.DataTransferObjects.Products;
+using Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +19,41 @@ namespace Services.Specifications
             AddInclude(prod => prod.ProductBrand);
         }
         //To Get All Products
-        public ProductWithTypeAndBrandSpecifications() : base(null)
+        public ProductWithTypeAndBrandSpecifications(ProductQueryParameters productQueryParameters) : base(CreateCriterea(productQueryParameters))
         {
             AddInclude(prod => prod.ProductType);
             AddInclude(prod => prod.ProductBrand);
+            ApplySorting(productQueryParameters);
         }
 
+        private static Expression<Func<Product, bool>> CreateCriterea(ProductQueryParameters productQueryParameters)
+        {
 
+            return p =>
+         (!productQueryParameters.BrandId.HasValue || p.BrandId == productQueryParameters.BrandId.Value) &&
+         (!productQueryParameters.TypeId.HasValue || p.TypeId == productQueryParameters.TypeId.Value) &&
+         (string.IsNullOrWhiteSpace(productQueryParameters.Search) ||
+         p.Name.ToLower().Contains(productQueryParameters.Search.ToLower()));
 
+        }
+
+        private void ApplySorting(ProductQueryParameters productQueryParameters)
+        {
+            switch (productQueryParameters.ProductSortingOptions)
+            {
+                case ProductSortingOptions.NameAsc:
+                    AddOrderBy(p => p.Name);
+                    break;
+                case ProductSortingOptions.NameDesc:
+                    AddOrderByDescending(p => p.Name);
+                    break;
+                case ProductSortingOptions.PriceAsc:
+                    AddOrderBy(p => p.Price);
+                    break;
+                case ProductSortingOptions.PriceDesc:
+                    AddOrderByDescending(p => p.Price);
+                    break;
+            }
+        }
     }
 }

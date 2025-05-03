@@ -9,6 +9,10 @@ namespace Domain.Contracs
 {
     public interface ISpecifications<T> where T : class
     {
+
+        Expression<Func<T,object>> OrderBy { get; } //For Sorting [Ascending]
+        Expression<Func<T, object>> OrderByDescending { get; } //For Sorting [Descending]
+
         Expression<Func<T, bool>> Criteria { get; } //For Filtring
 
         List<Expression<Func<T, object>>> IncludeExpressions { get; } //For Eager Loading
