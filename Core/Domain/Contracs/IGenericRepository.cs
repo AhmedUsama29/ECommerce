@@ -20,7 +20,7 @@ namespace Domain.Contracs
 
         Task<IEnumerable<TEntity>> GetAllAsync();   //remove later
 
-        Task<TEntity> GetByIdAsync(ISpecifications<TEntity> specifications);
+        Task<TEntity?> GetByIdAsync(ISpecifications<TEntity> specifications);
 
         Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TEntity> specifications);
 

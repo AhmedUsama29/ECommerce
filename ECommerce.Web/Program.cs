@@ -1,5 +1,6 @@
 
 using Domain.Contracs;
+using ECommerce.Web.Middelwares;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Data;
@@ -36,6 +37,8 @@ namespace ECommerce.Web
             var app = builder.Build();
 
             await InitializeDbAsync(app);
+
+            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
 
             // Configure the HTTP request pipeline.

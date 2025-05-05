@@ -28,7 +28,7 @@ namespace Persistence.Repositories
             _storeDbContext.Set<TEntity>().Remove(entity);
         }
 
-        public async Task<TEntity> GetByIdAsync(ISpecifications<TEntity> specifications)
+        public async Task<TEntity?> GetByIdAsync(ISpecifications<TEntity> specifications)
         {
 
             var res = await SpecificationEvaluator
