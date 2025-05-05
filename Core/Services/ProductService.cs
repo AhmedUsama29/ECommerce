@@ -38,12 +38,15 @@ namespace Services
 
             var productsResponse = _mapper.Map<IEnumerable<ProductResponse>>(products);
 
+            var CountSpecs = new ProductsCountSpecifications(productQueryParameters);
+            var totalCount = await repository.CountAsync(CountSpecs);
+
             var res = new PaginatedResponse<ProductResponse>()
             {
                 Data = productsResponse,
                 PageIndex = productQueryParameters.PageIndex,
                 PageSize = productQueryParameters.PageSize,
-                TotalCount = productsResponse.Count()
+                TotalCount = totalCount
             };
 
             return res;

@@ -11,6 +11,7 @@ namespace Domain.Contracs
     public interface IGenericRepository<TEntity,TKey> where TEntity : BaseEntity<TKey>
     {
 
+        Task<int> CountAsync(ISpecifications<TEntity> specifications);
         void Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
