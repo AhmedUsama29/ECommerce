@@ -24,6 +24,18 @@ namespace ECommerce.Web.Middelwares
             try
             {
                 await _next.Invoke(context);
+
+                if(context.Response.StatusCode == (int)HttpStatusCode.NotFound)
+                {
+                    context.Response.ContentType = "application/json";
+                    var response = new ErrorDetails()
+                    {
+                        StatusCode = (int)HttpStatusCode.NotFound,
+                        ErrorMessage = $"End Point With This Path : {context.Request.Path} Is Not Found"
+                    };
+
+                    await context.Response.WriteAsJsonAsync(response);
+                }
             }
             catch (Exception ex)
             {
@@ -51,7 +63,7 @@ namespace ECommerce.Web.Middelwares
                 var JsonRes = JsonSerializer.Serialize(response);
                 await context.Response.WriteAsync(JsonRes);
 
-                //await context.Response.WriteAsJsonAsync(response);
+                
 
             }
 
