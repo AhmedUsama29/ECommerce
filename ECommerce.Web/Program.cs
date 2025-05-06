@@ -1,6 +1,8 @@
 
 using Domain.Contracs;
 using ECommerce.Web.Middelwares;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Data;
@@ -8,6 +10,7 @@ using Persistence.Repositories;
 using Services;
 using Services.MappingProfiles;
 using ServicesAbstraction;
+using Shared.ErrorModels;
 
 namespace ECommerce.Web
 {
@@ -33,6 +36,27 @@ namespace ECommerce.Web
             builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
 
             builder.Services.AddScoped<IServiceManager, ServiceManager>();
+
+
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+
+                options.InvalidModelStateResponseFactory = (context) =>
+                {
+                    var errors = context.ModelState
+                        .Where(modelStateEntry => modelStateEntry.Value.Errors.Any())
+                        .Select(modelStateEntry => new ValidationError()
+                        {
+                            Field = modelStateEntry.Key,
+                            Errors = modelStateEntry.Value.Errors.Select(err => err.ErrorMessage)
+                        });
+                    var response = new ValidationErrorModel()
+                    {
+                        ValidationErrors = errors
+                    };
+                    return new BadRequestObjectResult(response);
+                };
+            });
 
             var app = builder.Build();
 
