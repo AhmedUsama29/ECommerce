@@ -1,5 +1,6 @@
 
 using Domain.Contracs;
+using ECommerce.Web.Factories;
 using ECommerce.Web.Middelwares;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -22,45 +23,13 @@ namespace ECommerce.Web
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            builder.Services.AddDbContext<StoreDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-            builder.Services.AddScoped<IDbInitializer, DbInitializer>();
-
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
-
-            builder.Services.AddScoped<IServiceManager, ServiceManager>();
-
-
-            builder.Services.Configure<ApiBehaviorOptions>(options =>
-            {
-
-                options.InvalidModelStateResponseFactory = (context) =>
-                {
-                    var errors = context.ModelState
-                        .Where(modelStateEntry => modelStateEntry.Value.Errors.Any())
-                        .Select(modelStateEntry => new ValidationError()
-                        {
-                            Field = modelStateEntry.Key,
-                            Errors = modelStateEntry.Value.Errors.Select(err => err.ErrorMessage)
-                        });
-                    var response = new ValidationErrorModel()
-                    {
-                        ValidationErrors = errors
-                    };
-                    return new BadRequestObjectResult(response);
-                };
-            });
+            builder.Services.AddInfrastructureRegisteration(builder.Configuration);
+            builder.Services.AddAplicationServices();
+            builder.Services.AddWebApplicationServices();
 
             var app = builder.Build();
 
-            await InitializeDbAsync(app);
+            await app.InitializeDbAsync();
 
             app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
@@ -82,14 +51,7 @@ namespace ECommerce.Web
 
             app.Run();
         }
-        public static async Task InitializeDbAsync(WebApplication app) 
-        {
-
-            using var Scope = app.Services.CreateScope(); //BG Services
-            var dbInitializer = Scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-            await dbInitializer.InitializeAsync();
-
-        }
+        
 
     }
 }

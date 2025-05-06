@@ -25,49 +25,55 @@ namespace ECommerce.Web.Middelwares
             {
                 await _next.Invoke(context);
 
-                if(context.Response.StatusCode == (int)HttpStatusCode.NotFound)
-                {
-                    context.Response.ContentType = "application/json";
-                    var response = new ErrorDetails()
-                    {
-                        StatusCode = (int)HttpStatusCode.NotFound,
-                        ErrorMessage = $"End Point With This Path : {context.Request.Path} Is Not Found"
-                    };
-
-                    await context.Response.WriteAsJsonAsync(response);
-                }
+                await HandleNotFoundEndPoint(context);
             }
             catch (Exception ex)
             {
-
-                _logger.LogError(ex, "Something Went Wrong");
-
-                //context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                context.Response.ContentType = "application/json";
-
-                var response = new ErrorDetails()
-                {
-                    //StatusCode = (int)HttpStatusCode.InternalServerError,
-                    ErrorMessage = ex.Message
-                };
-
-
-                response.StatusCode = ex switch
-                {
-                    NotFoundException => (int)HttpStatusCode.NotFound,
-                    _ => (int)HttpStatusCode.InternalServerError
-                };
-
-                context.Response.StatusCode = response.StatusCode;
-
-                var JsonRes = JsonSerializer.Serialize(response);
-                await context.Response.WriteAsync(JsonRes);
-
-                
+                await HandleCatchException(context, ex);
 
             }
 
         }
 
+        private async Task HandleCatchException(HttpContext context, Exception ex)
+        {
+            _logger.LogError(ex, "Something Went Wrong");
+
+            //context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.Response.ContentType = "application/json";
+
+            var response = new ErrorDetails()
+            {
+                //StatusCode = (int)HttpStatusCode.InternalServerError,
+                ErrorMessage = ex.Message
+            };
+
+
+            response.StatusCode = ex switch
+            {
+                NotFoundException => (int)HttpStatusCode.NotFound,
+                _ => (int)HttpStatusCode.InternalServerError
+            };
+
+            context.Response.StatusCode = response.StatusCode;
+
+            var JsonRes = JsonSerializer.Serialize(response);
+            await context.Response.WriteAsync(JsonRes);
+        }
+
+        private static async Task HandleNotFoundEndPoint(HttpContext context)
+        {
+            if (context.Response.StatusCode == (int)HttpStatusCode.NotFound)
+            {
+                context.Response.ContentType = "application/json";
+                var response = new ErrorDetails()
+                {
+                    StatusCode = (int)HttpStatusCode.NotFound,
+                    ErrorMessage = $"End Point With This Path : {context.Request.Path} Is Not Found"
+                };
+
+                await context.Response.WriteAsJsonAsync(response);
+            }
+        }
     }
 }
