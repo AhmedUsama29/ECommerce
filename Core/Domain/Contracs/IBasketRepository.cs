@@ -11,7 +11,7 @@ namespace Domain.Contracs
     {
 
         Task<CustomerBasket?> GetAsync(string id);
-        Task<CustomerBasket?> CreateOrUpdate(CustomerBasket basket);
+        Task<CustomerBasket?> CreateOrUpdate(CustomerBasket basket, TimeSpan? TimeToLive = null);
         Task DeleteAsync(string id);
 
 

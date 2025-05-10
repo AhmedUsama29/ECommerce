@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using ServicesAbstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace Presentation.Controllers
 {
-    public class BasketController
+    [Route("api/[controller]")] //BaseUrl/api/Products
+    [ApiController]
+    public class BasketController(IServiceManager _serviceManager) : ControllerBase
     {
 
         //1)Get User Basket
