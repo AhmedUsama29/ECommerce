@@ -1,4 +1,6 @@
 ﻿using Domain.Contracs;
+using Domain.Models.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +11,7 @@ using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,8 +41,26 @@ namespace Persistence
 
             services.AddScoped<IBasketRepository, BasketRepository>();
 
+            services.RegisterIdentity();
+
             return services;
         }
 
+
+        private static IServiceCollection RegisterIdentity(this IServiceCollection services)
+        {
+
+            //services.AddIdentity<ApplicationUser, IdentityRole>();
+
+            services.AddIdentityCore<ApplicationUser>(config =>
+            {
+                config.User.RequireUniqueEmail = true;
+                
+            })
+                    .AddRoles<IdentityRole>()
+                    .AddEntityFrameworkStores<StoreIdentityDbContext>();
+
+            return services;
+        }
     }
 }

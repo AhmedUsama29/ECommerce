@@ -15,7 +15,6 @@ namespace ECommerce.Web
             services.AddSwaggerServices();
             services.Configure<ApiBehaviorOptions>(options =>
             {
-
                 options.InvalidModelStateResponseFactory = ApiResponseFactory.GenerateApiValidationResponse;
             });
 
@@ -29,12 +28,14 @@ namespace ECommerce.Web
             services.AddSwaggerGen();
         }
 
-        public static async Task InitializeDbAsync(this WebApplication app)
+        public static async Task<WebApplication> InitializeDbAsync(this WebApplication app)
         {
 
             using var Scope = app.Services.CreateScope(); //BG Services
             var dbInitializer = Scope.ServiceProvider.GetRequiredService<IDbInitializer>();
             await dbInitializer.InitializeAsync();
+            await dbInitializer.InitializeIdentityAsync();
+            return app;
 
         }
 
