@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Data;
+using Persistence.Identity;
 using Persistence.Repositories;
 using StackExchange.Redis;
 using System;
@@ -21,6 +22,9 @@ namespace Persistence
 
             services.AddDbContext<StoreDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<StoreIdentityDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("IdentityStoreConnection")));
 
             services.AddScoped<IDbInitializer, DbInitializer>();
 
