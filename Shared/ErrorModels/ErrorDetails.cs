@@ -13,5 +13,7 @@ namespace Shared.ErrorModels
 
         public string ErrorMessage { get; set; }
 
+        public List<string>? Errors { get; set; }
+
     }
 }
