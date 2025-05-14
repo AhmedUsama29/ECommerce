@@ -2,7 +2,9 @@
 using Domain.Contracs;
 using Domain.Models.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using ServicesAbstraction;
+using Shared.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,8 @@ namespace Services
     public class ServiceManager(IUnitOfWork _unitOfWork,
                                 IMapper _mapper,
                                 IBasketRepository _basketRepository,
-                                UserManager<ApplicationUser> _userManager) : IServiceManager
+                                UserManager<ApplicationUser> _userManager,
+                                IOptions<JWTOptions> _jwtOptions) : IServiceManager
     {
 
         private readonly Lazy<IProductService> _lazyProductService
@@ -27,7 +30,7 @@ namespace Services
         public IBasketService BasketService => _lazyBasketService.Value;
 
         private readonly Lazy<IAuthenticationService> _lazyAuthenticationService
-            = new Lazy<IAuthenticationService>(() => new AuthenticationService(_userManager));
+            = new Lazy<IAuthenticationService>(() => new AuthenticationService(_userManager,_jwtOptions));
         public IAuthenticationService AuthenticationService => _lazyAuthenticationService.Value;
 
     }

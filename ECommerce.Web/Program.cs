@@ -25,8 +25,8 @@ namespace ECommerce.Web
             // Add services to the container.
 
             builder.Services.AddInfrastructureRegisteration(builder.Configuration);
-            builder.Services.AddAplicationServices();
-            builder.Services.AddWebApplicationServices();
+            builder.Services.AddAplicationServices(builder.Configuration);
+            builder.Services.AddWebApplicationServices(builder.Configuration);
             var app = builder.Build();
 
             await app.InitializeDbAsync();
@@ -44,7 +44,8 @@ namespace ECommerce.Web
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
 
             app.MapControllers();

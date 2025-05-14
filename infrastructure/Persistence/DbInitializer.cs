@@ -103,7 +103,7 @@ namespace Persistence
                     };
 
                     await _userManager.CreateAsync(superAdminUser,"P@ssw0rd");
-                    await _userManager.CreateAsync(AdminUser,"password");
+                    await _userManager.CreateAsync(AdminUser, "P@ssw0rd");
 
                     await _userManager.AddToRoleAsync(superAdminUser,"SuperAdmin");
                     await _userManager.AddToRoleAsync(AdminUser, "Admin");
