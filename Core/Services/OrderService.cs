@@ -4,6 +4,7 @@ using Domain.Exceptions;
 using Domain.Models.Baskets;
 using Domain.Models.Orders;
 using Domain.Models.Products;
+using Services.Specifications;
 using ServicesAbstraction;
 using Shared.DataTransferObjects.Orders;
 using System;
@@ -57,19 +58,29 @@ namespace Services
 
         }
 
-        public Task<IEnumerable<OrderResponse>> GetAllAsync(string email)
+        public async Task<IEnumerable<OrderResponse>> GetAllAsync(string email)
         {
-            throw new NotImplementedException();
+            var orders = await _unitOfWork.GetRepository<Order, Guid>()
+                                          .GetAllAsync(new OrderSpecification(email));
+
+            return _mapper.Map<IEnumerable<OrderResponse>>(orders);
         }
 
-        public Task<OrderResponse> GetByIdAsync(Guid orderId)
+        public async Task<OrderResponse> GetByIdAsync(Guid orderId)
         {
-            throw new NotImplementedException();
+            var order = await _unitOfWork.GetRepository<Order, Guid>()
+                                          .GetByIdAsync(new OrderSpecification(orderId));
+
+            return _mapper.Map<OrderResponse>(order);
         }
 
-        public Task<IEnumerable<DeliveryMethodResponse>> GetDeliveryMethodsAsync()
+        public async Task<IEnumerable<DeliveryMethodResponse>> GetDeliveryMethodsAsync()
         {
-            throw new NotImplementedException();
+            var DeliveryMethods = await _unitOfWork.GetRepository<DeliveryMethod, int>()
+                                             .GetAllAsync();
+
+            return _mapper.Map<IEnumerable<DeliveryMethodResponse>>(DeliveryMethods);
+
         }
 
         private OrderItem CreateOrderItem(Product originalProduct, BasketItem item)
