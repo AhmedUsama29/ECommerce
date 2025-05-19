@@ -30,7 +30,7 @@ namespace Services
         public IBasketService BasketService => _lazyBasketService.Value;
 
         private readonly Lazy<IAuthenticationService> _lazyAuthenticationService
-            = new Lazy<IAuthenticationService>(() => new AuthenticationService(_userManager,_jwtOptions));
+            = new Lazy<IAuthenticationService>(() => new AuthenticationService(_userManager,_jwtOptions,_mapper));
         public IAuthenticationService AuthenticationService => _lazyAuthenticationService.Value;
 
     }
