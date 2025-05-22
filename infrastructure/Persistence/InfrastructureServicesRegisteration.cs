@@ -40,6 +40,7 @@ namespace Persistence
             });
 
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<ICacheRepository, CacheRepository>();
 
             services.RegisterIdentity();
 

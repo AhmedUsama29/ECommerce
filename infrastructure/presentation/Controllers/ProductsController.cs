@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Attributes;
 using ServicesAbstraction;
 using Shared;
 using Shared.DataTransferObjects.Products;
@@ -18,6 +19,7 @@ namespace Presentation.Controllers
     {
 
         [HttpGet]
+        [ReddisCache]
         public async Task<ActionResult<PaginatedResponse<ProductResponse>>> GetAllProducts([FromQuery]ProductQueryParameters productQueryParameters)
         {
             var Products = await _serviceManager.ProductService.GetAllProductsAsync(productQueryParameters);

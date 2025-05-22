@@ -26,6 +26,7 @@ namespace Services
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ICacheService, CacheService>();
 
 
             services.AddScoped<Func<IProductService>>(provider => ()

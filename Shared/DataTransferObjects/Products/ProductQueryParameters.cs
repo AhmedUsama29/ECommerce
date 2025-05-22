@@ -18,7 +18,7 @@ namespace Shared.DataTransferObjects.Products
         private const int _dafaultPageSize = 5;
         private const int _maxPageSize = 5;
 
-        private int pageSize;
+        private int pageSize = _dafaultPageSize;
 
         public int PageSize
         {
