@@ -21,13 +21,14 @@ namespace Domain.Models.Orders
             
         }
 
-        public Order(string userEmail, List<OrderItem> items, OrderAddress address, decimal subTotal, DeliveryMethod deliveryMethod)
+        public Order(string userEmail, List<OrderItem> items, OrderAddress address, decimal subTotal, DeliveryMethod deliveryMethod, string paymentIntentId)
         {
             BuyerEmail = userEmail;
             Items = items;
             ShipToAddress = address;
             SubTotal = subTotal;
             DeliveryMethod = deliveryMethod;
+            PaymentIntentId = paymentIntentId;
         }
 
         public string BuyerEmail { get; set; }
@@ -36,7 +37,7 @@ namespace Domain.Models.Orders
 
         public OrderAddress ShipToAddress { get; set; }
 
-        public string PaymentIntentId { get; set; } = string.Empty;
+        public string PaymentIntentId { get; set; }
 
         public decimal SubTotal { get; set; }
 

@@ -27,6 +27,7 @@ namespace Services
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
 
             services.AddScoped<Func<IProductService>>(provider => ()
@@ -40,6 +41,10 @@ namespace Services
 
             services.AddScoped<Func<IAuthenticationService>>(provider => ()
                 => provider.GetRequiredService<IAuthenticationService>());
+
+            services.AddScoped<Func<IPaymentService>>(provider => ()
+                => provider.GetRequiredService<IPaymentService>());
+
 
 
             services.Configure<JWTOptions>(configuration.GetSection("JWTOptions"));

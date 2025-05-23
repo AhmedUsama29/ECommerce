@@ -10,7 +10,8 @@ namespace Services
     public class ServiceManagerWithFactoryDelegate(Func<IProductService> productFactory,
                                                     Func<IBasketService> BasketFactory,
                                                     Func<IAuthenticationService> AuthenticationFactory,
-                                                    Func<IOrderService> OrderFactory) : IServiceManager
+                                                    Func<IOrderService> OrderFactory,
+                                                    Func<IPaymentService> PaymentFactory) : IServiceManager
     {
         public IProductService ProductService => productFactory.Invoke();
 
@@ -19,5 +20,7 @@ namespace Services
         public IAuthenticationService AuthenticationService => AuthenticationFactory.Invoke();
 
         public IOrderService OrderService => OrderFactory.Invoke();
+
+        public IPaymentService PaymentService => PaymentFactory.Invoke();
     }
 }
