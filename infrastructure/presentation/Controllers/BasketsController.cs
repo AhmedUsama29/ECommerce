@@ -11,7 +11,7 @@ namespace Presentation.Controllers
 {
     [Route("api/[controller]")] //BaseUrl/api/Products
     [ApiController]
-    public class BasketController(IServiceManager _serviceManager) : ControllerBase
+    public class BasketsController(IServiceManager _serviceManager) : ControllerBase
     {
 
         //1)Get User Basket

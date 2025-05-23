@@ -115,9 +115,9 @@ namespace Services
                                          .FirstOrDefaultAsync(u => u.Email == email) 
                                          ?? throw new UserNotFoundException(email);
 
-            if(user.Address is not null)
+            //if(user.Address is not null)
                 return _mapper.Map<AddressDto>(user.Address);
-            throw new AddressNotFoundException(user.UserName);
+            //throw new AddressNotFoundException(user.UserName);
 
         }
 

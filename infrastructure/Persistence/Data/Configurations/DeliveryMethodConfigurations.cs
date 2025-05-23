@@ -15,7 +15,7 @@ namespace Persistence.Data.Configurations
         {
             builder.ToTable("DeliveryMethods");
             
-            builder.Property(d => d.Price)
+            builder.Property(d => d.Cost)
                 .HasColumnType("decimal(8,2)");
             builder.Property(d => d.Description)
                 .HasColumnType("varchar(200)");

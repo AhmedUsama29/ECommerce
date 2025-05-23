@@ -42,7 +42,7 @@ namespace Services
                                           .GetByIdAsync(orderRequest.DeliveryMethodId)
                                           ?? throw new DeliveryMethodNotFoundException(orderRequest.DeliveryMethodId);
 
-            var Address = _mapper.Map<OrderAddress>(orderRequest.Address);
+            var Address = _mapper.Map<OrderAddress>(orderRequest.ShipToAddress);
 
             var SubTotal = items.Sum(i => i.Price * i.Quantity);
 

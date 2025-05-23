@@ -47,7 +47,7 @@ namespace Services
                 Data = productsResponse,
                 PageIndex = productQueryParameters.PageIndex,
                 PageSize = productQueryParameters.PageSize,
-                TotalCount = totalCount
+                Count = totalCount
             };
 
             return res;

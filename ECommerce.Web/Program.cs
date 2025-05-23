@@ -47,6 +47,7 @@ namespace ECommerce.Web
             }
 
             app.UseStaticFiles();
+            app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
